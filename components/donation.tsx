@@ -14,9 +14,9 @@ export default async function Donation() {
   const donations = await getDonationData()
   return (
     <div>
-      {donations.map((donation: any)=> {
+      {donations.map((donation: any,i: number)=> {
         return (
-          <div>
+          <div key={i}>
             <Stack>
               <Paper shadow="xs" p="md">
                 <Group>
