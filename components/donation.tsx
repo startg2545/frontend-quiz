@@ -3,49 +3,34 @@
 import { Paper, Text, Stack, Group, Title, Card } from "@mantine/core";
 import dayjs from "dayjs";
 
-export default function Donation() {
+const getDonationData = async () => {
+  const res = await fetch('https://donation-server-production.up.railway.app/donation', {
+      cache: 'no-store',
+  })
+  return res.json();
+}
+
+export default async function Donation() {
+  const donations = await getDonationData()
   return (
-    <Card withBorder shadow="xs" bg="gray.3">
-      <Group mb={20}>
-        <Title order={1} color="gray">
-          Total
-        </Title>
-        <Title order={1} variant="gradient">
-          10000
-        </Title>
-        <Title order={1} color="gray">
-          THB
-        </Title>
-      </Group>
-      <Stack>
-        <Paper shadow="xs" p="md">
-          <Group>
-            <Text>Tom</Text>
-            <Text>Sawyer</Text>
-            <Text>tom_sawyer@gmail.com</Text>
-            <Text>10000</Text>
-            <Text>{dayjs("2023-08-26 06:17:51").format("D-MMM HH:mm:ss")}</Text>
-          </Group>
-        </Paper>
-        <Paper shadow="xs" p="md">
-          <Group>
-            <Text>Tom</Text>
-            <Text>Sawyer</Text>
-            <Text>tom_sawyer@gmail.com</Text>
-            <Text>10000</Text>
-            <Text>{dayjs("2023-08-26 06:17:51").format("D-MMM HH:mm:ss")}</Text>
-          </Group>
-        </Paper>
-        <Paper shadow="xs" p="md">
-          <Group>
-            <Text>Tom</Text>
-            <Text>Sawyer</Text>
-            <Text>tom_sawyer@gmail.com</Text>
-            <Text>10000</Text>
-            <Text>{dayjs("2023-08-26 06:17:51").format("D-MMM HH:mm:ss")}</Text>
-          </Group>
-        </Paper>
-      </Stack>
-    </Card>
+    <div>
+      {donations.map((donation: any)=> {
+        return (
+          <div>
+            <Stack>
+              <Paper shadow="xs" p="md">
+                <Group>
+                <Text>{donation.firstName}</Text>
+                <Text>{donation.lastName}</Text>
+                <Text>{donation.email}</Text>
+                <Text>{donation.amount}</Text>
+                <Text>{donation.time}</Text>
+                </Group>
+              </Paper>
+            </Stack>
+          </div>
+        )
+      })}
+    </div>
   );
 }
